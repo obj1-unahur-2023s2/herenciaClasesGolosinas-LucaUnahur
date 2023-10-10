@@ -21,6 +21,10 @@ class Bombon {
 	method libreGluten() { return true }
 }
 
+class BombonDuro inherits Bombon{
+	override method mordisco(){peso-=1}
+	method gradoDeDureza()= if(peso>12) 3 else if (peso.between(8,12)) 2 else 1
+}
 
 class Alfajor {
 	var peso = 15
@@ -34,14 +38,20 @@ class Alfajor {
 
 class Caramelo {
 	var peso = 5
-
+	var property sabor
 	method precio() { return 12 }
 	method peso() { return peso }
 	method mordisco() { peso = peso - 1 }
-	method sabor() { return frutilla }
 	method libreGluten() { return true }
 }
 
+class CarameloConCorazonDeChocolate inherits Caramelo{
+	override method mordisco(){
+		super()
+		self.sabor(chocolate)
+	}
+	override method precio()=super()+1
+}
 
 class Chupetin {
 	var peso = 7
@@ -75,6 +85,16 @@ class Oblea {
 	method libreGluten() { return false }
 }
 
+class ObleaCrujiente inherits Oblea{
+	var cantMordiscos=0
+	override method mordisco(){
+		super()
+		cantMordiscos ++
+		if(cantMordiscos<=3){peso-=3}
+	}
+	method estaDebil()=cantMordiscos>3
+}
+
 class Chocolatin {
 	// hay que acordarse de *dos* cosas, el peso inicial y el peso actual
 	// el precio se calcula a partir del precio inicial
@@ -91,8 +111,16 @@ class Chocolatin {
 
 }
 
+class ChocolatinVIP inherits Chocolatin{
+	override method peso()= super()*1+self.humedad()
+	method humedad()=heladeraDeMariano.humedad()
+}
+
+class ChocolatePremium inherits ChocolatinVIP{
+	override method humedad()= super()/2
+}
 class GolosinaBaniada {
-	var golosinaInterior
+	var property golosinaInterior
 	var pesoBanio = 4
 	
 	method golosinaInterior(unaGolosina) { golosinaInterior = unaGolosina }
@@ -106,6 +134,9 @@ class GolosinaBaniada {
 	method libreGluten() { return golosinaInterior.libreGluten() }	
 }
 
+object heladeraDeMariano{
+	var property humedad=[0,1].anyOne()
+}
 
 class Tuttifrutti {
 	var libreDeGluten

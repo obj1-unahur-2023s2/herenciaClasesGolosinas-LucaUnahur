@@ -4,7 +4,9 @@ object mariano {
 	var golosinas = []
 	 
 	method comprar(_golosina) { golosinas.add(_golosina) }
-	
+	method comprarMuchasGolosinas(listaDeGolosinas){
+		golosinas.addAll(listaDeGolosinas)
+	}
 	method desechar (_golosina) { golosinas.remove(_golosina) }
 	
 	method golosinas() { return golosinas }
@@ -62,6 +64,17 @@ object mariano {
 	
 	method tieneGolosinaDeSabor(_sabor) {
 		return golosinas.any({_golosina => _golosina.sabor() == _sabor})
+	}
+	
+	// metodos auxiliares
+	method estaEnBolsa(golosina)= golosinas.contains(golosina)
+	//fin metodos auxiliares
+	// metodos nuevos
+	method baniar(unaGolosina){
+		if(self.estaEnBolsa(unaGolosina)){ 
+			self.comprar(new GolosinaBaniada(golosinaInterior=unaGolosina)) 
+			self.desechar(unaGolosina)
+		} 
 	}
 }
 
